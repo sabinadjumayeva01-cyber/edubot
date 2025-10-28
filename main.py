@@ -22,7 +22,7 @@ bot = Bot(
 )
 
 # === Webhook config ===
-WEBHOOK_HOST = os.getenv("WEBHOOK_HOST", "https://YOUR-KOYEB-APP.koyeb.app")  # ⚠️ замени после деплоя
+WEBHOOK_HOST = os.getenv("WEBHOOK_HOST", "https://satisfied-andrea-training0607-6c0bdccb.koyeb.app/")  # ⚠️ замени после деплоя
 WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
