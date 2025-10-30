@@ -11,7 +11,7 @@ from handlers.admin import admin_router
 from handlers.user import user_router
 
 
-# === Создание dispatcher и bot ===
+# === Dispatcher и Bot ===
 dp = Dispatcher()
 dp.include_router(admin_router)
 dp.include_router(user_router)
@@ -22,7 +22,7 @@ bot = Bot(
 )
 
 # === Webhook config ===
-WEBHOOK_HOST = os.getenv("WEBHOOK_HOST", "https://satisfied-andrea-training0607-6c0bdccb.koyeb.app/")  # ⚠️ замени после деплоя
+WEBHOOK_HOST = os.getenv("WEBHOOK_HOST", "https://satisfied-andrea-training0607-6c0bdde4.koyeb.app")  # ⚠️ без слэша в конце!
 WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
@@ -41,14 +41,14 @@ async def on_shutdown(app: web.Application):
     print("🛑 Bot остановлен")
 
 
-# === Основная функция ===
+# === Main ===
 def main():
     app = web.Application()
     SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path=WEBHOOK_PATH)
     setup_application(app, dp, bot=bot)
     app.on_startup.append(on_startup)
     app.on_shutdown.append(on_shutdown)
-    port = int(os.getenv("PORT", 8080))
+    port = int(os.getenv("PORT", 8000))  # ⚠️ Koyeb использует порт 8000
     web.run_app(app, host="0.0.0.0", port=port)
 
 
