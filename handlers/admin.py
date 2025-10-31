@@ -107,6 +107,26 @@ async def cmd_users(message: Message):
         text = 'Foydalanuvchilar:\n' + '\n'.join([f"{r[0]} - {r[1]} {r[2]} - {r[3]} - {r[4]}" for r in rows])
         await message.answer(text)
 
+# --- CLEAR FINAL ANSWERS ---
+@admin_router.message(Command(commands=['clear_final']), F.from_user.id == ADMIN_ID)
+async def clear_final_answers(message: Message):
+    async with aiosqlite.connect('bot.db') as db:
+        # Если хочешь удалить только последние 20, поставь это:
+        await db.execute("""
+            DELETE FROM final_answers
+            WHERE id IN (
+                SELECT id FROM final_answers
+                ORDER BY id DESC
+                LIMIT 20
+            )
+        """)
+        # Если хочешь очищать ВСЕ, то замени строку выше на просто:
+        # await db.execute("DELETE FROM final_answers")
+
+        await db.commit()
+        await message.answer("🧹 Последние 20 финальных ответов успешно удалены!")
+
+
 # --- NOTIFY ADMIN ABOUT NEW USER ---
 async def notify_admin_about_user(bot, user_id, first_name, last_name, phone):
     kb = InlineKeyboardMarkup(inline_keyboard=[
