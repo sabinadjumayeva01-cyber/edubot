@@ -23,7 +23,7 @@ async def cmd_start(message: Message):
         await message.answer("Siz admin sifatida tizimdasiz.")
         return
     await message.answer(
-        "Assalomu alaykum! Iltimos ismingizni va familiyangizni yuboring (format: Ism Familiya).\nMasalan: Ali Vali"
+        "Assalomu alaykum! Iltimos ismingizni va familiyangizni yuboring (format: Ism Familiya).\nMasalan: Djumayeva Sabina"
     )
 
 @user_router.message(lambda m: m.text and len(m.text.split()) >= 2)
