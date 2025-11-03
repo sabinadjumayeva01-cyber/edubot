@@ -33,12 +33,7 @@ async def on_startup(app: web.Application):
     await database.init_db()
     await bot.delete_webhook(drop_pending_updates=True)
     await bot.set_webhook(WEBHOOK_URL)
-    print("✅ Webhook установлен:", WEBHOOK_URL)
-
-# ✅ Проверка для UptimeRobot
-async def health(request):
-    return web.Response(text="Bot is alive!")   
-
+    print("✅ Webhook установлен:", WEBHOOK_URL) 
 
 async def on_shutdown(app: web.Application):
     await bot.session.close()
@@ -46,10 +41,15 @@ async def on_shutdown(app: web.Application):
 
 
 # === Main ===
+# ✅ Проверка для UptimeRobot
+async def health(request):
+    return web.Response(text="Bot is alive!")
+
 def main():
     app = web.Application()
     SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path=WEBHOOK_PATH)
     setup_application(app, dp, bot=bot)
+    app.router.add_get("/", health)
     app.on_startup.append(on_startup)
     app.on_shutdown.append(on_shutdown)
     port = int(os.getenv("PORT", 8000))  # ⚠️ Koyeb использует порт 8000
