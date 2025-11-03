@@ -102,11 +102,26 @@ async def set_user_current_day(db, tg_id, day):
 
 # ========== LESSONS ==========
 async def add_lesson(db, day, title, file_type, file_id):
-    await db.execute("""
-        INSERT INTO lessons (day, title, file_type, file_id)
-        VALUES (?, ?, ?, ?)
-    """, (day, title, file_type, file_id))
+    # Проверяем, есть ли уже урок с таким днём
+    cur = await db.execute("SELECT id FROM lessons WHERE day = ?", (day,))
+    row = await cur.fetchone()
+
+    if row:
+        # Если урок есть — обновляем
+        await db.execute("""
+            UPDATE lessons
+            SET title = ?, file_type = ?, file_id = ?
+            WHERE day = ?
+        """, (title, file_type, file_id, day))
+    else:
+        # Если нет — добавляем новый
+        await db.execute("""
+            INSERT INTO lessons (day, title, file_type, file_id)
+            VALUES (?, ?, ?, ?)
+        """, (day, title, file_type, file_id))
+
     await db.commit()
+
 
 async def get_lesson(db, day):
     cur = await db.execute("SELECT * FROM lessons WHERE day = ?", (day,))
