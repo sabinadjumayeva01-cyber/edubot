@@ -35,6 +35,10 @@ async def on_startup(app: web.Application):
     await bot.set_webhook(WEBHOOK_URL)
     print("✅ Webhook установлен:", WEBHOOK_URL)
 
+# ✅ Проверка для UptimeRobot
+async def health(request):
+    return web.Response(text="Bot is alive!")   
+
 
 async def on_shutdown(app: web.Application):
     await bot.session.close()
