@@ -363,7 +363,7 @@ async def calculate_final_score(bot, uid):
     os.remove(score_path)
 
     if score >= 70:
-        await bot.send_message(uid, f"🎉 Tabriklaymiz! Sizning balingiz: {score}\nOxirgi testni muvaffaqiyatli yakunladingiz. Ushbu SMS ni @none ga yuboring va jamoamizga qo‘shiling.")
+        await bot.send_message(uid, f"🎉 Tabriklaymiz! Sizning balingiz: {score}\nOxirgi testni muvaffaqiyatli yakunladingiz. Ushbu SMS ni @Aziza_Shokirovna ga yuboring va jamoamizga qo‘shiling.")
     else:
         await bot.send_message(uid, f"😔 Kechirasiz, sizning balingiz: {score}\nUshbu ko‘rsatkich 70 dan past. Iltimos, darslarni qayta boshlang va urinib ko‘ring.")
 
